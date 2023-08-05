@@ -59,40 +59,21 @@ bool isPrime(int n)
 
 void solve()
 {
-    ll n;
+    int n;
     cin >> n;
-    ll k;
-    cin >> k;
-    vector<ll> m(n);
-    vector<ll> indices;
-    for (ll i = 0; i < n; i++)
+    int a[n];
+    for (int i = 0; i < n; i++)
     {
-        indices.push_back(i + 1);
-        cin >> m[i];
-        if (m[i] % k == 0)
-            m[i] = k;
-        else
-            m[i] = m[i] % k;
+        cin >> a[i];
     }
-
-    sort(indices.begin(), indices.end(), [&](ll x, ll y) -> bool
-         {  if(m[x-1]==m[y-1])
-         return x<y;
-            return m[x - 1] > m[y - 1]; });
-
-    printVector(indices);
-
-    // could have used stable sort!
-
-    stable_sort(indices.begin(), indices.end(), [&](int x, int y) -> bool
-                { return m[x - 1] < m[y - 1]; });
+    int l = 0;
 }
 
 int main()
 {
     int t;
-    cin >> t;
-
+    // cin >> t;
+    t = 1;
     while (t--)
     {
         solve();

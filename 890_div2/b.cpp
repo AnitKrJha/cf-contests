@@ -59,33 +59,24 @@ bool isPrime(int n)
 
 void solve()
 {
-    ll n;
+    int n;
     cin >> n;
-    ll k;
-    cin >> k;
-    vector<ll> m(n);
-    vector<ll> indices;
-    for (ll i = 0; i < n; i++)
+    long long arr[n];
+    long long sum = 0;
+    long long secSum = 0;
+    for (int i = 0; i < n; i++)
     {
-        indices.push_back(i + 1);
-        cin >> m[i];
-        if (m[i] % k == 0)
-            m[i] = k;
+        cin >> arr[i];
+        sum += arr[i];
+        if (arr[i] != 1)
+            sum -= 1;
         else
-            m[i] = m[i] % k;
+            sum -= 2;
     }
-
-    sort(indices.begin(), indices.end(), [&](ll x, ll y) -> bool
-         {  if(m[x-1]==m[y-1])
-         return x<y;
-            return m[x - 1] > m[y - 1]; });
-
-    printVector(indices);
-
-    // could have used stable sort!
-
-    stable_sort(indices.begin(), indices.end(), [&](int x, int y) -> bool
-                { return m[x - 1] < m[y - 1]; });
+    if (sum < 0 || n == 1)
+        cout << "NO\n";
+    else
+        cout << "Yes\n";
 }
 
 int main()

@@ -57,35 +57,61 @@ bool isPrime(int n)
     return true;
 }
 
+ll getBig()
+{
+    return 1e12 * 1;
+}
+
+bool getAns(ll a[], ll n, ll mid, ll i, ll k)
+{
+    ll ans = 0;
+    for (int j = i; j < n; j++)
+    {
+        if (a[j] >= mid)
+            break;
+        if (j == n - 1 && a[j] < mid)
+            return false;
+        else
+            ans += mid - a[j];
+        mid = mid - 1;
+    }
+    return ans <= k ? true : false;
+}
+
 void solve()
 {
     ll n;
     cin >> n;
     ll k;
     cin >> k;
-    vector<ll> m(n);
-    vector<ll> indices;
-    for (ll i = 0; i < n; i++)
+    ll copy[n];
+    ll arr[n];
+    for (int i = 0; i < n; i++)
     {
-        indices.push_back(i + 1);
-        cin >> m[i];
-        if (m[i] % k == 0)
-            m[i] = k;
-        else
-            m[i] = m[i] % k;
+        cin >> arr[i];
+        copy[i] = arr[i];
     }
-
-    sort(indices.begin(), indices.end(), [&](ll x, ll y) -> bool
-         {  if(m[x-1]==m[y-1])
-         return x<y;
-            return m[x - 1] > m[y - 1]; });
-
-    printVector(indices);
-
-    // could have used stable sort!
-
-    stable_sort(indices.begin(), indices.end(), [&](int x, int y) -> bool
-                { return m[x - 1] < m[y - 1]; });
+    ll mx = arr[n - 1];
+    for (int i = 0; i < n - 1; i++)
+    {
+        ll K = k;
+        ll localMax = arr[i];
+        ll r = getBig();
+        while (localMax <= r)
+        {
+            ll mid = (localMax + r) / 2;
+            if (getAns(arr, n, mid, i, k))
+            {
+                localMax = mid + 1;
+                mx = max(mx, mid);
+            }
+            else
+            {
+                r = mid - 1;
+            }
+        }
+    }
+    cout << mx << "\n";
 }
 
 int main()

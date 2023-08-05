@@ -57,35 +57,27 @@ bool isPrime(int n)
     return true;
 }
 
-void solve()
+bool solve()
 {
-    ll n;
+    // basically make a copy of A and sort the copy and check that the parity of the copy at any index i matches the actual.
+
+    int n;
     cin >> n;
-    ll k;
-    cin >> k;
-    vector<ll> m(n);
-    vector<ll> indices;
-    for (ll i = 0; i < n; i++)
+    int arr[n];
+    int arr2[n];
+    for (int i = 0; i < n; i++)
     {
-        indices.push_back(i + 1);
-        cin >> m[i];
-        if (m[i] % k == 0)
-            m[i] = k;
-        else
-            m[i] = m[i] % k;
+        cin >> arr[i];
+        arr2[i] = arr[i];
+    }
+    sort(arr, arr + n);
+    for (int i = 0; i < n; i++)
+    {
+        if (arr[i] % 2 != arr2[i] % 2)
+            return false;
     }
 
-    sort(indices.begin(), indices.end(), [&](ll x, ll y) -> bool
-         {  if(m[x-1]==m[y-1])
-         return x<y;
-            return m[x - 1] > m[y - 1]; });
-
-    printVector(indices);
-
-    // could have used stable sort!
-
-    stable_sort(indices.begin(), indices.end(), [&](int x, int y) -> bool
-                { return m[x - 1] < m[y - 1]; });
+    return true;
 }
 
 int main()
@@ -95,7 +87,7 @@ int main()
 
     while (t--)
     {
-        solve();
+        cout << (solve() ? "Yes\n" : "No\n");
     }
 
     return 0;

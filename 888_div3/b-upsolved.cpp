@@ -59,33 +59,41 @@ bool isPrime(int n)
 
 void solve()
 {
-    ll n;
+    int n;
     cin >> n;
-    ll k;
-    cin >> k;
-    vector<ll> m(n);
-    vector<ll> indices;
-    for (ll i = 0; i < n; i++)
+    vector<int> arr(n);
+    vector<int> B(n);
+    fori(i, n)
     {
-        indices.push_back(i + 1);
-        cin >> m[i];
-        if (m[i] % k == 0)
-            m[i] = k;
-        else
-            m[i] = m[i] % k;
+        cin >> arr[i];
     }
 
-    sort(indices.begin(), indices.end(), [&](ll x, ll y) -> bool
-         {  if(m[x-1]==m[y-1])
-         return x<y;
-            return m[x - 1] > m[y - 1]; });
+    // approach is , as swapping is allowed for same parity then
+    // the odd numbers will get sorted at their place , and even
+    // number will get sorted at their place , and then the resulting array should be sorted.
 
-    printVector(indices);
+    // so how can i do it , I can store the even indices and sort them
+    // store the odd indices and sort them
+    //
 
-    // could have used stable sort!
+    for (int x = 0; x < 2; x++)
+    {
+        vector<int> indices;
+        for (int i = 0; i < n; i++)
+        {
+            if (arr[i] % 2 == x)
+                indices.push_back(i);
+        }
+        vector<int> oldIndices = indices;
+        sort(indices.begin(), indices.end(), [&](int x, int y) -> bool
+             { return arr[x] < arr[y]; });
 
-    stable_sort(indices.begin(), indices.end(), [&](int x, int y) -> bool
-                { return m[x - 1] < m[y - 1]; });
+        for (int i = 0; i < indices.size(); i++)
+        {
+            B[oldIndices[i]] = arr[indices[i]];
+        }
+    }
+    cout << (is_sorted(B.begin(), B.end()) ? "Yes\n" : "No\n");
 }
 
 int main()
